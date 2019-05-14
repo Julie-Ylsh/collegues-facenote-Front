@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
@@ -9,27 +9,18 @@ import { Collegue } from '../models/Collegue';
   providedIn: 'root'
 })
 export class UserService {
-  // boolean utilisateur connecté
-  userConnected = false;
 
-  collegueConnecte:Collegue;
+
+  collegueConnecte: Collegue;
 
   URL_BACKEND = environment.backendUrl;
 
   constructor(private _http: HttpClient) {
-    this.getCollegueCookie().subscribe((col) => {
-      this.collegueConnecte = col;
-      console.log('cookie ok');
-      this.userConnected = true;
-      this.subject.next(true);
-    }, err => {
-      console.log(err.message + ' - pas de cookie');
-      this.userConnected = false;
-      this.subject.next(false);
-    });
+    this.methodeCookie();
   }
 
-  private subject = new Subject<boolean>();
+  private subjectIdentificationOk = new BehaviorSubject<boolean>(false);
+  private subjectCollegue = new BehaviorSubject<Collegue>(this.collegueConnecte);
 
   ngOnInit(): void {
   }
@@ -44,21 +35,38 @@ export class UserService {
     })
   }
 
+  // méthode pour invoquer getCookie et appliquer les subscribe dessus
+  methodeCookie() {
+    this.getCollegueCookie().subscribe((col) => {
+      this.collegueConnecte = col;
+      console.log('cookie ok');
+      this.subjectIdentificationOk.next(true);
+      this.subjectCollegue.next(this.collegueConnecte);
+    }, err => {
+      console.log(err.message + ' - pas de cookie');
+      this.subjectIdentificationOk.next(false);
+    });
+  }
+
   // Méthode pour se connecter
-  postAuthentification(username: string, password: string, imgUrl?:string): Observable<string> {
+  postAuthentification(username: string, password: string, imgUrl?: string): Observable<string> {
     let url: string = this.URL_BACKEND;
     url += '/login';
     return this._http.post(url, {
       "matriculeCollegue": username,
       "motDePasse": password,
-      "urlPhoto" : imgUrl,
+      "urlPhoto": imgUrl,
     }, {
         headers: new HttpHeaders({
           "Content-Type": "application/json"
         }),
         responseType: 'text',
         withCredentials: true
-      }).pipe(tap(() => this.userConnected = true));
+      }).pipe(tap(() => {
+        this.subjectIdentificationOk.next(true);
+        this.methodeCookie();
+
+      }));
   }
 
 
@@ -73,20 +81,19 @@ export class UserService {
       responseType: 'text',
       withCredentials: true
     }).pipe(tap(() => {
-      this.userConnected = false;
+      this.subjectIdentificationOk.next(false);
       console.log('deconnexion Ok')
     }));
   }
 
-  // Méthode pour savoir si l'utilisateur est connecté
-  isLoggedIn() {
-    if (this.userConnected == false) return false;
-    else return true
-  }
 
   // Abonnement au subject
   prendreAbonnement(): Observable<boolean> {
-    return this.subject.asObservable();
+    return this.subjectIdentificationOk.asObservable();
+  }
+
+  prendreAbonnementCollegue(): Observable<Collegue> {
+    return this.subjectCollegue.asObservable();
   }
 
 }

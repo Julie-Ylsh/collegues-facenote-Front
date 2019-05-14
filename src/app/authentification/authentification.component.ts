@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/UserService';
+import { Collegue } from '../models/Collegue';
 
 @Component({
   selector: 'app-authentification',
@@ -15,16 +16,26 @@ export class AuthentificationComponent implements OnInit {
   // Boolean pour afficher ok quand la connexion est faite
   identificationOk: boolean;
 
+  collegueConnecte: Collegue;
+
 
   constructor(private _userService: UserService) { }
 
   ngOnInit() {
+
     this.identificationOk = false;
     console.log(this.identificationOk)
     this._userService.prendreAbonnement().subscribe(valeurEmise => {
       this.identificationOk = valeurEmise;
     });
     console.log(this.identificationOk);
+
+    // récupération du collegue connecté
+    this._userService.prendreAbonnementCollegue().subscribe(valeurEmise => {
+      this.collegueConnecte = valeurEmise;
+    });
+    console.log(this.collegueConnecte);
+
 
   }
 
