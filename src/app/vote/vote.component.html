@@ -1,0 +1,23 @@
+<!-- First Parallax Image with Logo Text -->
+<div class="bgimg-1 w3-display-container w3-opacity-min" id="home">
+  <div class="w3-display-middle" style="white-space:nowrap;">
+    <span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">A
+      VOUS DE JOUER</span>
+  </div>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-12 col-sm-6 col-lg-4 w3-center w3-padding-large w3-animate-opacity " *ngFor="let col of tabCollegues">
+    <img alt="{{col.matricule}}" src="{{col.photoUrl}}" class="img img-thumbnail" style="max-height: 200px" />
+    <p>{{col.prenoms}} {{col.nom}} </p>
+    <button type="button" class="btn btn-outline-secondary" ngbTooltip="Et hop, un vote positif !" triggers="click:blur"
+      style="background:url(https://cdn0.iconfinder.com/data/icons/kirrkle-social-networks-part-2/60/15_-_Thumb_up-512.png)"
+      (click)="votePositif(col.matricule)">
+    </button>
+    <button type="button" class="btn btn-outline-secondary" ngbTooltip="Oh non :(" triggers="click:blur"
+      style="background:url(https://cdn2.iconfinder.com/data/icons/flatte-social-networks-part-2/80/15_-_Thumb_down-512.png)"
+      (click)="voteNegatif(col.matricule)">
+    </button>
+
+  </div>
+</div>
