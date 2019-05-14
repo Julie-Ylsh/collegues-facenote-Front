@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Collegue } from '../models/Collegue';
 import { Observable } from 'rxjs';
 import { DataService } from '../services/dataService';
+import { UserService } from '../services/UserService';
 
 @Component({
   selector: 'app-vote',
@@ -21,7 +22,7 @@ export class VoteComponent implements OnInit {
     right: false
   };
 
-  constructor(private _service: DataService) { }
+  constructor(private _service: DataService, private _userService: UserService) { }
 
   ngOnInit() {
     this.aVote = false;
@@ -33,28 +34,33 @@ export class VoteComponent implements OnInit {
   }
 
 
-  votePositif(matricule: string) {
-    if (this.aVote === false) {
-      this._service.getVotePositif(matricule).subscribe(() => {
+  votePositif(matriculeVotant: string) {
+    if (this._userService.collegueConnecte.matricule === matriculeVotant) {
+      alert('Et bien alors, on essaye de voter pour soi-même ?');
+
+    } else if (this.aVote === false) {
+      this._service.postVotePositif(this._userService.collegueConnecte.matricule, matriculeVotant).subscribe(() => {
         this.aVote = true;
       }, err => {
         console.log(err.message);
       });
-    }
-    else {
+    } else if (this.aVote === true) {
       alert('Vous avez déjà voté une fois ;)');
     }
+
+    console.log(this.aVote);
   }
 
-  voteNegatif(matricule: string) {
-    if (this.aVote === false) {
-      this._service.getVoteNegatif(matricule).subscribe(() => {
+  voteNegatif(matriculeCollegue: string, matriculeVotant: string) {
+    if (this._userService.collegueConnecte.matricule === matriculeVotant) {
+      alert('Et bien alors, on essaye de voter pour soi-même ?');
+    } else if (this.aVote === false) {
+      this._service.postVoteNegatif(matriculeCollegue, matriculeVotant).subscribe(() => {
         this.aVote = true;
       }, err => {
         console.log(err.message);
       });
-    }
-    else {
+    } else if (this.aVote === true) {
       alert('Vous avez déjà voté une fois ;)');
     }
 

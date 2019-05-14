@@ -10,6 +10,7 @@ export class AuthentificationComponent implements OnInit {
   // Création des variables matricule et mot de passe qui seront chargées dans le formulaire
   matricule: string;
   motDePasse: string;
+  imageUrl: string;
 
   // Boolean pour afficher ok quand la connexion est faite
   identificationOk: boolean;
@@ -29,7 +30,7 @@ export class AuthentificationComponent implements OnInit {
 
   // Méthode pour utiliser usersevice et se connecter
   connexion() {
-    this._userService.postAuthentification(this.matricule, this.motDePasse).subscribe(() => {
+    this._userService.postAuthentification(this.matricule, this.motDePasse, this.imageUrl).subscribe(() => {
       console.log('connexion ok');
       this.identificationOk = true;
     }, err => {

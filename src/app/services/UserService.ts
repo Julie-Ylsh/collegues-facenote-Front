@@ -12,10 +12,13 @@ export class UserService {
   // boolean utilisateur connecté
   userConnected = false;
 
+  collegueConnecte:Collegue;
+
   URL_BACKEND = environment.backendUrl;
 
   constructor(private _http: HttpClient) {
-    this.getCollegueCookie().subscribe(() => {
+    this.getCollegueCookie().subscribe((col) => {
+      this.collegueConnecte = col;
       console.log('cookie ok');
       this.userConnected = true;
       this.subject.next(true);
@@ -42,12 +45,13 @@ export class UserService {
   }
 
   // Méthode pour se connecter
-  postAuthentification(username: string, password: string): Observable<string> {
+  postAuthentification(username: string, password: string, imgUrl?:string): Observable<string> {
     let url: string = this.URL_BACKEND;
     url += '/login';
     return this._http.post(url, {
       "matriculeCollegue": username,
-      "motDePasse": password
+      "motDePasse": password,
+      "urlPhoto" : imgUrl,
     }, {
         headers: new HttpHeaders({
           "Content-Type": "application/json"

@@ -64,30 +64,42 @@ export class DataService {
 
   }
 
-  getVotePositif(matricule: string): Observable<string> {
+  postVotePositif(matriculeCollegue: string, matriculeVotant: string): Observable<string> {
     let url: string = this.URL_BACKEND
-    url += '/vote/yes/';
-    url += matricule;
+    url += '/vote/';
     console.log(url);
-    return this._http.get(url, {
-      withCredentials: true,
-      responseType: 'text'
-    }).pipe(tap(() => {
-      console.log('a voté une fois')
-    }));
+    return this._http.post(url, {
+      "matriculeVotant": matriculeVotant,
+      "matriculeCollegue": matriculeCollegue,
+      "choixVote": "YES"
+    }, {
+        headers: new HttpHeaders({
+          "Content-Type": "application/json"
+        }),
+        responseType: 'text',
+        withCredentials: true
+      }).pipe(tap(() => {
+        console.log('a voté une fois')
+      }));
   }
 
-  getVoteNegatif(matricule: string): Observable<string> {
+  postVoteNegatif(matriculeCollegue: string, matriculeVotant: string): Observable<string> {
     let url: string = this.URL_BACKEND
-    url += '/vote/no/';
-    url += matricule;
+    url += '/vote/';
     console.log(url);
-    return this._http.get(url, {
-      withCredentials: true,
-      responseType: 'text'
-    }).pipe(tap(() => {
-      console.log('a voté une fois')
-    }));
+    return this._http.post(url, {
+      "matriculeVotant": matriculeVotant,
+      "matriculeCollegue": matriculeCollegue,
+      "choixVote": 'NO'
+    }, {
+        headers: new HttpHeaders({
+          "Content-Type": "application/json"
+        }),
+        responseType: 'text',
+        withCredentials: true
+      }).pipe(tap(() => {
+        console.log('a voté une fois')
+      }));
   }
 
 

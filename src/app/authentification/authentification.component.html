@@ -9,7 +9,10 @@
             required name="Matricule" [(ngModel)]="matricule" style="color:black"></p>
         <p style="font-size: 20px"><input class="w3-input w3-padding-16 w3-border" type="password"
             placeholder="Mot de passe" required name="Message" [(ngModel)]="motDePasse" style="color:black"></p>
-        <p><button class="w3-button w3-light-grey w3-block" (click)="connexion()">GO</button></p>
+        <p style="font-size: 20px"><input class="w3-input w3-padding-16 w3-border" type="text"
+            placeholder="Si vous souhaitez changer l'image par défaut" name="image" [(ngModel)]="imageUrl" style="color:black"></p>
+        <p><button class="w3-button w3-light-grey w3-block" (click)="connexion()"
+            (keydown.enter)="connexion()">GO</button></p>
       </form>
 
     </div>
