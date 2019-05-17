@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs'
+import { Subject, Observable, BehaviorSubject } from 'rxjs'
 import { environment } from '../../environments/environment';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -36,9 +36,8 @@ export class DataService {
           this.listeColleguesService.push(collegue);
         }
         console.log('Nombre de collègues : ' + this.listeColleguesService.length);
-
         return this.listeColleguesService;
-      }))
+      }));
 
   }
 
@@ -47,7 +46,7 @@ export class DataService {
     // On remet à zéro le tableau sinon à chaque recher il enlèvera pas les recherches précédentes
     this.listeColleguesService = [];
 
-    let url: string = this.URL_BACKEND
+    let url: string = this.URL_BACKEND;
     url += '/players';
     console.log(url);
     return this._http.get<Collegue[]>(url, {
@@ -58,14 +57,13 @@ export class DataService {
           this.listeColleguesService.push(collegue);
         }
         console.log('Nombre de collègues : ' + this.listeColleguesService.length);
-
         return this.listeColleguesService;
-      }))
+      }));
 
   }
 
   postVotePositif(matriculeCollegue: string, matriculeVotant: string): Observable<string> {
-    let url: string = this.URL_BACKEND
+    let url: string = this.URL_BACKEND;
     url += '/vote/';
     console.log(url);
     return this._http.post(url, {
@@ -79,12 +77,12 @@ export class DataService {
         responseType: 'text',
         withCredentials: true
       }).pipe(tap(() => {
-        console.log('a voté une fois')
+        console.log('a voté une fois');
       }));
   }
 
   postVoteNegatif(matriculeCollegue: string, matriculeVotant: string): Observable<string> {
-    let url: string = this.URL_BACKEND
+    let url: string = this.URL_BACKEND;
     url += '/vote/';
     console.log(url);
     return this._http.post(url, {
@@ -98,7 +96,7 @@ export class DataService {
         responseType: 'text',
         withCredentials: true
       }).pipe(tap(() => {
-        console.log('a voté une fois')
+        console.log('a voté une fois');
       }));
   }
 

@@ -2,11 +2,16 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
 
-##Pour tester :
+## Pour tester :
 identifiants à utiliser 
 -1 et pass1
 -2 et pass2
 -3 et pass3
+
+## En termes d'améliorations
+- Bon c'est sur que clairement, on pourrait passer plus de temps sur le CSS. Mais ce n'est pas le but ;)
+- Je n'ai pas vraiment géré les exceptions (principalement par manque de temps)
+- Au niveau du vote en plusieurs fois, j'ai également mis une solution très simple, en front, qui ne marche que si la page n'est pas rechargée. Pas de changement du back.
 
 ## Development server
 

@@ -10,7 +10,6 @@ import { Collegue } from '../models/Collegue';
 })
 export class UserService {
 
-
   collegueConnecte: Collegue;
 
   URL_BACKEND = environment.backendUrl;
@@ -32,7 +31,7 @@ export class UserService {
     console.log(url);
     return this._http.get<Collegue>(url, {
       withCredentials: true
-    })
+    });
   }
 
   // méthode pour invoquer getCookie et appliquer les subscribe dessus
@@ -81,7 +80,7 @@ export class UserService {
       withCredentials: true
     }).pipe(tap(() => {
       this.subjectIdentificationOk.next(false);
-      console.log('deconnexion Ok')
+      console.log('deconnexion Ok');
     }));
   }
 
