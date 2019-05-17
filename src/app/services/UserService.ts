@@ -65,7 +65,6 @@ export class UserService {
       }).pipe(tap(() => {
         this.subjectIdentificationOk.next(true);
         this.methodeCookie();
-
       }));
   }
 

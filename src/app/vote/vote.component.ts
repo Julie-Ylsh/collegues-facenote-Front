@@ -34,12 +34,12 @@ export class VoteComponent implements OnInit {
   }
 
 
-  votePositif(matriculeVotant: string) {
-    if (this._userService.collegueConnecte.matricule === matriculeVotant) {
+  votePositif(matriculeCollegue: string) {
+    if (matriculeCollegue === this._userService.collegueConnecte.matricule) {
       alert('Et bien alors, on essaye de voter pour soi-même ?');
 
     } else if (this.aVote === false) {
-      this._service.postVotePositif(this._userService.collegueConnecte.matricule, matriculeVotant).subscribe(() => {
+      this._service.postVotePositif(matriculeCollegue, this._userService.collegueConnecte.matricule).subscribe(() => {
         this.aVote = true;
       }, err => {
         console.log(err.message);
@@ -51,11 +51,11 @@ export class VoteComponent implements OnInit {
     console.log(this.aVote);
   }
 
-  voteNegatif(matriculeCollegue: string, matriculeVotant: string) {
-    if (this._userService.collegueConnecte.matricule === matriculeVotant) {
+  voteNegatif(matriculeCollegue: string) {
+    if (matriculeCollegue === this._userService.collegueConnecte.matricule) {
       alert('Et bien alors, on essaye de voter pour soi-même ?');
     } else if (this.aVote === false) {
-      this._service.postVoteNegatif(matriculeCollegue, matriculeVotant).subscribe(() => {
+      this._service.postVoteNegatif(matriculeCollegue, this._userService.collegueConnecte.matricule).subscribe(() => {
         this.aVote = true;
       }, err => {
         console.log(err.message);

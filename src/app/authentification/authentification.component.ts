@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/UserService';
 import { Collegue } from '../models/Collegue';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-authentification',
@@ -19,7 +20,7 @@ export class AuthentificationComponent implements OnInit {
   collegueConnecte: Collegue;
 
 
-  constructor(private _userService: UserService) { }
+  constructor(private _userService: UserService, private router: Router) { }
 
   ngOnInit() {
 
@@ -44,6 +45,7 @@ export class AuthentificationComponent implements OnInit {
     this._userService.postAuthentification(this.matricule, this.motDePasse, this.imageUrl).subscribe(() => {
       console.log('connexion ok');
       this.identificationOk = true;
+      this.router.navigate(['/galerie'])
     }, err => {
       console.log(err.message);
       return alert(`Les informations de connexion ne semblent pas correctes`)
