@@ -4,9 +4,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Pour tester :
 identifiants à utiliser 
--1 et pass1
--2 et pass2
--3 et pass3
+- 1 et pass1
+- 2 et pass2
+- 3 et pass3
 
 ## En termes d'améliorations
 - Bon c'est sur que clairement, on pourrait passer plus de temps sur le CSS. Mais ce n'est pas le but ;)
